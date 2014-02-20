@@ -1,0 +1,17 @@
+{			
+	"main": {
+		"type": "main",
+		"path": "/",
+		"html": "main/html/content.html",
+		"js": ["main/js/sch.js"]		
+	},
+	"wrong": {
+		"type": "wrong-path",
+		"path": "/new"
+	},
+	"issues": {
+		"path": "/issues",
+		"html": "issues/html/content.html",
+		"js": ["issues/js/issues.js", "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-collapse.js"]		
+	}
+}
