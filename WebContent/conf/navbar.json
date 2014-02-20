@@ -6,61 +6,30 @@
 			"path": "/"
 		}
 	},
-	"experiments": {
-		"text": "navbar.titles.experiments.header",
-		"child": [			
-			{
-				"type": "header",
-				"text": "navbar.titles.experiments.reservations.header"			
-			},
+	"plans": {
+		"text": "navbar.titles.plans.header",
+		"child": [						
 			{
 				"type": "link",
-				"text": "navbar.titles.experiments.reservations.new",
+				"text": "navbar.titles.plans.new",
 				"href": {
 					"path": "/new"
 				}
 			},
 			{
 				"type": "link",
-				"text": "navbar.titles.experiments.reservations.pending",
+				"text": "navbar.titles.plans.active",
 				"href": {
-					"path": "/pending"
+					"path": "/active"
 				}
-			},
-			{
-				"type": "divider"
-			},
-			{
-				"type": "header",
-				"text": "navbar.titles.experiments.online.header"			
-			},
+			},			
 			{
 				"type": "link",
-				"text": "navbar.titles.experiments.online.scheduler",
+				"text": "navbar.titles.plans.completed",
 				"href": {
-					"path": "/plans"
+					"path": "/completed"
 				}
 			}
 		]	
-	},
-	"images": {
-		"text": "navbar.titles.images.header",
-		"href": {
-			"app": "",
-			"path": "/images"
-		}	
-	},
-	"profile": {
-		"text": "navbar.titles.profile.header",
-		"href": {
-			"app": "",
-			"path": "/profile"
-		}	
-	},
-	"issues": {
-		"text": "navbar.titles.issues.header",
-		"href": {
-			"path": "/issues"
-		}
 	}
 }

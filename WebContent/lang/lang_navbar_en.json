@@ -1,25 +1,12 @@
 {
 	"titles" : {
 		"home": "Home",
-		"experiments": {
-			"header": "Experiments",
-			"online": {
-				"header": "Online",
-				"solar" : "Solar",
-				"scheduler": "Scheduler"
-			},
-			"reservations" : {
-				"header": "RESERVATIONS",
-				"new": "New",
-				"pending": "Pending"
-			}
+		"plans": {
+			"header": "Observing plans",
+			"new": "New",
+			"active": "Active",
+			"completed": "Completed"			
 		},
-		"images": {
-			"header": "Images"
-		},
-        "profile": {
-            "header": "Profile"
-        },
         "issues": {
             "header": "Issues"
         }
