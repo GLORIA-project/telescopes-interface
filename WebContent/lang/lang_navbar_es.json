@@ -1,11 +1,10 @@
 {
 	"titles" : {
 		"home": "Inicio",
-		"plans": {
-			"header": "Observaciones",
-			"new": "Nueva",
-			"active": "Activas",
-			"completed": "Completadas"			
+		"telescopes": {
+			"header": "Telescopios",
+			"list": "Lista",
+			"scripts": "Scripts"			
 		},
         "issues": {
             "header": "Incidencias"

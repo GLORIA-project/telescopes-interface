@@ -1,0 +1,77 @@
+<link href="scripts/css/styles.css" rel="stylesheet"></link>
+<div ng-controller="ScriptsController" ng-show="ready">
+	<div class="page-header" style="border: none; margin-bottom: 10px">
+		<div class="row" style="margin-bottom: 0px">
+			<h2 style="margin-left: 18px">{{'scripts.header'|i18n}}</h2>
+		</div>
+	</div>
+	<div class="container">
+		<p>{{'scripts.intro'|i18n}}</p>
+	</div>
+	<div style="margin-top: 15px">
+		<h3 style="margin-bottom: 15px">Telescopes</h3>
+		<ul class="thumbnails">
+			<li class="span2">
+				<div class="telescope-banner pcard"
+					style="background-image: url(scripts/img/tads-b.png)"
+					ng-click="telescopeClicked('TADs')"
+					ng-class="{highCard: telescopeSelected == 'TADs'}"></div>
+				<h4 style="text-align: center">{{'scripts.telescopes.tads.name'|i18n}}</h4>
+			</li>
+			<li class="span2">
+				<div class="telescope-banner pcard"
+					style="background-image: url(scripts/img/tadn-b.png);"
+					ng-click="telescopeClicked('TADn')"
+					ng-class="{highCard: telescopeSelected == 'TADn'}"></div>
+				<h4 style="text-align: center">{{'scripts.telescopes.tadn.name'|i18n}}</h4>
+			</li>
+		</ul>
+	</div>
+	<div class="animate-show" ng-show="scriptsReady">
+		<h3 style="margin-bottom: 15px">Timeline</h3>
+		<div class="timeline">
+			<div ng-repeat="script in scripts" ng-style="script.dayStyle"
+				style="position: absolute; height: 100%; border-radius: 3px"></div>
+			<div ng-click="hourClicked($index)" ng-repeat="hour in hours"
+				ng-style="hour.style" class="hour-divider"
+				ng-class="{highSlot: hourSelected == $index}">
+				<div style="position: absolute; top: 30px; width: 100%">
+					<div style="text-align: center">{{$index}}</div>
+				</div>
+			</div>
+		</div>
+		<div style="margin-top: 30px" ng-show="hourSelected != null"
+			class="timeline">
+			<div ng-repeat="script in scripts | filter:filterScripts"
+				ng-style="script.hourStyle" ng-click="scriptClicked($index, script)"
+				ng-class="{highSlot: scriptSelected == $index}"
+				style="position: absolute; height: 100%; border-radius: 3px"></div>
+		</div>
+	</div>
+	<div style="margin-top: 25px" class="animate-show"
+		ng-show="scriptForDetail != null">
+		<h3>Script details</h3>
+		<div class="script-container">
+			<div class="script-detail"></div>
+			<div
+				style="float: left; padding: 20px; padding-left: 25px; position: relative; width: 265px; height: 260px">
+				<h4 style="margin-bottom: 15px">Daily script</h4>
+				<p style="font-size: 90%; line-height: 15px">This script
+					executes every day at the same time.</p>
+				<div style="float: left; margin-top: 8px">
+					<img src="scripts/img/begin.png" style="float: left; width: 20px">
+					<h5
+						style="margin-left: 30px; font-size: 16px; margin-top: 4px; width: 200px">
+						{{scriptForDetail.slot.begin | utc | date:'mediumTime'}}</h5>
+				</div>
+				<div style="float: left; margin-top: 8px">
+					<img src="scripts/img/length.png" style="float: left; width: 20px">
+					<h5
+						style="margin-left: 30px; font-size: 16px; margin-top: 4px; width: 200px">
+						{{scriptForDetail.slot.length / 60000.0 | number:0 }} min</h5>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

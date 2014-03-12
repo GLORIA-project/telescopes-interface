@@ -1,19 +1,14 @@
 {				
-	"new": {
+	"list": {
 		"type": "main",
-		"path": "/new",
-		"html": "new/html/content.html",
-		"js": ["new/js/new.js", "https://cdn.lfrs.sl/alloyui.com/2.0.0pr6/aui/aui-min.js", "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-collapse.js"]		
+		"path": "/list",
+		"html": "list/html/content.html",
+		"js": ["list/js/list.js", "https://cdn.lfrs.sl/alloyui.com/2.0.0pr6/aui/aui-min.js", "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-collapse.js"]		
 	},
-	"active": {
-		"path": "/active",
-		"html": "active/html/content.html",
-		"js": ["active/js/active.js", "https://cdn.lfrs.sl/alloyui.com/2.0.0pr6/aui/aui-min.js", "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-collapse.js"]		
-	},
-	"completed": {
-		"path": "/completed",
-		"html": "completed/html/content.html",
-		"js": ["completed/js/completed.js", "https://cdn.lfrs.sl/alloyui.com/2.0.0pr6/aui/aui-min.js", "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-collapse.js"]		
+	"scripts": {
+		"path": "/scripts",
+		"html": "scripts/html/content.html",
+		"js": ["scripts/js/scripts.js", "https://cdn.lfrs.sl/alloyui.com/2.0.0pr6/aui/aui-min.js", "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-collapse.js"]		
 	},
 	"issues": {
 		"path": "/issues",
@@ -22,6 +17,6 @@
 	},
 	"wrong": {
 		"type": "wrong-path",
-		"path": "/new"
+		"path": "/list"
 	}
 }

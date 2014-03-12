@@ -6,28 +6,21 @@
 			"path": "/"
 		}
 	},
-	"plans": {
-		"text": "navbar.titles.plans.header",
+	"telescopes": {
+		"text": "navbar.titles.telescopes.header",
 		"child": [						
 			{
 				"type": "link",
-				"text": "navbar.titles.plans.new",
+				"text": "navbar.titles.telescopes.list",
 				"href": {
-					"path": "/new"
+					"path": "/list"
 				}
 			},
 			{
 				"type": "link",
-				"text": "navbar.titles.plans.active",
+				"text": "navbar.titles.telescopes.scripts",
 				"href": {
-					"path": "/active"
-				}
-			},			
-			{
-				"type": "link",
-				"text": "navbar.titles.plans.completed",
-				"href": {
-					"path": "/completed"
+					"path": "/scripts"
 				}
 			}
 		]	
