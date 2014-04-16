@@ -1,5 +1,26 @@
 'use strict';
 
+var buildTimelineSlots = function(n) {
+	var slots = [];
+
+	for (var i = 0; i < n; i++) {
+		var slot = {
+			style : {
+				left : (100 / n) * i + '%',
+				width : (100 / n) + '%'
+			}
+		};
+
+		if (i == 0) {
+			slot.style.borderLeft = 'none';
+		}
+
+		slots[i] = slot;
+	}
+
+	return slots;
+};
+
 function ScriptsController($gloriaAPI, $scope, $timeout, $location,
 		$gloriaLocale, $filter) {
 
@@ -11,21 +32,14 @@ function ScriptsController($gloriaAPI, $scope, $timeout, $location,
 	$scope.scriptSelected = null;
 	$scope.scriptForDetail = null;
 
-	$scope.hours = [];
-	for (var i = 0; i < 24; i++) {
-		var hour = {
-			style : {
-				left : (100 / 24) * i + '%',
-				width : (100 / 24) + '%'
-			}
-		};
+	$scope.hours = buildTimelineSlots(24);
+	$scope.quarters = buildTimelineSlots(4);
 
-		if (i == 0) {
-			hour.style.borderLeft = 'none';
-		}
-
-		$scope.hours[i] = hour;
-	}
+	var i = 1;
+	$scope.quarters.forEach(function(quarter) {
+		quarter.text = "Q" + i;
+		i++;
+	});
 
 	$scope.hourClicked = function(number) {
 		$scope.hourSelected = number;
@@ -36,6 +50,7 @@ function ScriptsController($gloriaAPI, $scope, $timeout, $location,
 	$scope.scriptClicked = function(index, script) {
 		$scope.scriptSelected = index;
 		$scope.scriptForDetail = script;// $scope.scripts[number];
+		toolbox.scrollTo('details');
 	};
 
 	$scope.filterScripts = function(script) {
@@ -73,39 +88,92 @@ function ScriptsController($gloriaAPI, $scope, $timeout, $location,
 				|| $scope.hourSelected == endHour;
 	};
 
+	$scope.isValidScript = function(op) {
+		return op == 'expose' || op == 'close' || op == 'open';
+	};
+	
+	$scope.deleteScript = function() {
+		$gloriaAPI.deleteScript($scope.scriptForDetail, function() {
+			$scope.scriptSelected = null;
+			$scope.scriptForDetail = null;
+			$scope.loadScripts();
+		}, function(error) {
+			alert("Could not delete script");
+		});
+	};
+
 	$scope.loadScripts = function() {
-		$gloriaAPI.getTelescopeScripts($scope.telescopeSelected,
-				function(data) {
-					console.log(data);
-					$scope.scripts = [];
+		$gloriaAPI
+				.getTelescopeScripts(
+						$scope.telescopeSelected,
+						function(data) {
+							$scope.scripts = [];
 
-					data.forEach(function(script) {
+							data
+									.forEach(function(script) {
 
-						var leftValue = script.slot.begin / 864000;
-						var widthValue = Math.min(script.slot.length / 864000,
-								100 - leftValue);
+										if ($scope
+												.isValidScript(script.operation)) {
+											var leftValue = script.slot.begin / 864000;
+											var widthValue = Math
+													.min(
+															script.slot.length / 864000,
+															100 - leftValue);
 
-						script.dayStyle = {
-							left : leftValue + '%',
-							backgroundColor : '#709709',
-							cursor : 'pointer',
-							borderLeft : '1px solid rgb(0, 82, 128, 0.3)',
-							borderRight : '1px solid rgb(0, 82, 128, 0.3)'
-						};
+											script.dayStyle = {
+												left : leftValue + '%',
+												backgroundColor : '#709709',
+												cursor : 'pointer',
+												borderLeft : '1px solid rgb(0, 82, 128, 0.3)',
+												borderRight : '1px solid rgb(0, 82, 128, 0.3)'
+											};
 
-						if (widthValue < 0.1) {
-							script.dayStyle.width = '1px';
-						} else {
-							script.dayStyle.width = widthValue + '%';
-						}
+											if (widthValue < 0.1) {
+												script.dayStyle.width = '1px';
+											} else {
+												script.dayStyle.width = widthValue
+														+ '%';
+											}
 
-						$scope.scripts.push(script);
+											script.parameters = [];
 
-					});
+											var init = script.init;
+											for ( var property in init) {
+												var parameter = {};
+												if (property
+														.indexOf("dome.delay") != -1) {
+													parameter.alias = "park after";
+												} else if (property
+														.indexOf("exposure") != -1) {
+													parameter.alias = "exposure time";
+												} else if (property
+														.indexOf("ccd.delay") != -1) {
+													parameter.alias = "expose after";
+												} else if (property
+														.indexOf(".object") != -1) {
+													parameter.alias = "object";
+												} else if (property
+														.indexOf(".ra") != -1) {
+													parameter.alias = "ra";
+												} else if (property
+														.indexOf(".dec") != -1) {
+													parameter.alias = "dec";
+												}
 
-					$scope.scriptsReady = true;
-				}, function(error) {
-				});
+												if (parameter.alias != undefined) {
+													parameter.value = init[property];
+													script.parameters
+															.push(parameter);
+												}
+											}
+
+											$scope.scripts.push(script);
+										}
+									});
+
+							$scope.scriptsReady = true;
+						}, function(error) {
+						});
 	};
 
 	$scope.telescopeClicked = function(name) {
@@ -116,6 +184,7 @@ function ScriptsController($gloriaAPI, $scope, $timeout, $location,
 			$scope.scriptForDetail = null;
 			$scope.scriptsReady = false;
 			$scope.loadScripts();
+			toolbox.scrollTo('timeline');
 		}
 	};
 

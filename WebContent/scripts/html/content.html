@@ -27,50 +27,98 @@
 			</li>
 		</ul>
 	</div>
-	<div class="animate-show" ng-show="scriptsReady">
+	<div id="timeline" class="animate-show" ng-show="scriptsReady">
 		<h3 style="margin-bottom: 15px">Timeline</h3>
+		<div class="container">
+			<p>{{'scripts.timeline'|i18n}}</p>
+		</div>
+		<h4>Day scope</h4>
 		<div class="timeline">
 			<div ng-repeat="script in scripts" ng-style="script.dayStyle"
 				style="position: absolute; height: 100%; border-radius: 3px"></div>
 			<div ng-click="hourClicked($index)" ng-repeat="hour in hours"
-				ng-style="hour.style" class="hour-divider"
+				ng-style="hour.style" class="slot-divider"
 				ng-class="{highSlot: hourSelected == $index}">
 				<div style="position: absolute; top: 30px; width: 100%">
 					<div style="text-align: center">{{$index}}</div>
 				</div>
 			</div>
 		</div>
-		<div style="margin-top: 30px" ng-show="hourSelected != null"
-			class="timeline">
-			<div ng-repeat="script in scripts | filter:filterScripts"
-				ng-style="script.hourStyle" ng-click="scriptClicked($index, script)"
-				ng-class="{highSlot: scriptSelected == $index}"
-				style="position: absolute; height: 100%; border-radius: 3px"></div>
+		<div style="margin-top: 50px" ng-show="hourSelected != null">
+			<h4>Hour scope</h4>
+			<div class="timeline">
+				<div ng-repeat="quarter in quarters" ng-style="quarter.style"
+					class="slot-divider" style="cursor: default">
+					<div style="position: absolute; top: 30px; width: 100%">
+						<div style="text-align: center">{{quarter.text}}</div>
+					</div>
+				</div>
+				<div ng-repeat="script in scripts | filter:filterScripts"
+					ng-style="script.hourStyle"
+					ng-click="scriptClicked($index, script)"
+					ng-class="{highSlot: scriptSelected == $index}"
+					style="position: absolute; height: 100%; border-radius: 3px"></div>
+			</div>
 		</div>
 	</div>
-	<div style="margin-top: 25px" class="animate-show"
+	<div id="details" style="margin-top: 45px" class="animate-show"
 		ng-show="scriptForDetail != null">
 		<h3>Script details</h3>
 		<div class="script-container">
 			<div class="script-detail"></div>
 			<div
 				style="float: left; padding: 20px; padding-left: 25px; position: relative; width: 265px; height: 260px">
+				<div style="position: absolute; right: 10px; top: 10px; cursor:pointer" ng-click="deleteScript()">
+					<img src="scripts/img/trash.png">
+				</div>
 				<h4 style="margin-bottom: 15px">Daily script</h4>
 				<p style="font-size: 90%; line-height: 15px">This script
 					executes every day at the same time.</p>
-				<div style="float: left; margin-top: 8px">
-					<img src="scripts/img/begin.png" style="float: left; width: 20px">
-					<h5
-						style="margin-left: 30px; font-size: 16px; margin-top: 4px; width: 200px">
-						{{scriptForDetail.slot.begin | utc | date:'mediumTime'}}</h5>
+				<div style="margin-top: 8px; overflow: hidden">
+					<div style="float: left">
+						<img src="scripts/img/begin.png"
+							style="float: left; width: 20px; margin-top: 3px">
+						<h5
+							style="margin-left: 30px; font-size: 16px; margin-top: 4px; width: 100px">
+							{{scriptForDetail.slot.begin | utc | date:'mediumTime'}}</h5>
+					</div>
+					<div style="float: left; margin-left: 25px">
+						<img src="scripts/img/length.png" style="float: left; width: 20px">
+						<h5
+							style="margin-left: 30px; font-size: 16px; margin-top: 4px; width: 50px">
+							{{scriptForDetail.slot.length / 60000.0 | number:0 }} min</h5>
+					</div>
 				</div>
-				<div style="float: left; margin-top: 8px">
-					<img src="scripts/img/length.png" style="float: left; width: 20px">
-					<h5
-						style="margin-left: 30px; font-size: 16px; margin-top: 4px; width: 200px">
-						{{scriptForDetail.slot.length / 60000.0 | number:0 }} min</h5>
+				<div
+					style="margin-top: 8px; overflow: hidden; font-size: 90%; line-height: 15px">
+					<img src="scripts/img/notify.png"
+						style="float: left; width: 23px; margin-top: 5px">
+					<div style="margin-left: 31px">
+						<div ng-if="scriptForDetail.notify">The author is notified
+							after each execution.</div>
+						<div ng-if="!scriptForDetail.notify">The author is not
+							notified after each execution.</div>
+					</div>
 				</div>
-
+				<div style="margin-top: 8px; overflow: hidden">
+					<div style="float: left">
+						<img src="scripts/img/op.png"
+							style="float: left; width: 17px; margin-top: 3px; margin-left: 2px">
+						<h5
+							style="margin-left: 30px; font-size: 16px; margin-top: 4px; margin-bottom: 0px; width: 100px">
+							{{scriptForDetail.operation}}</h5>
+						<div style="margin-left: 30px; line-height: 15px;">
+							<div ng-repeat="param in scriptForDetail.parameters">
+								<p style="font-size: 90%; margin: 0px; font-family: monospace">{{param.alias}}:
+									{{param.value}}</p>
+							</div>
+							<div ng-show="scriptForDetail.parameters.length == 0">
+								<p style="font-size: 90%; margin: 0px; font-family: monospace">No
+									parameters</p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
