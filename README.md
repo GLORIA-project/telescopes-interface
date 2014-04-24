@@ -1,2 +1,2 @@
-Experiment Reservations interface
-=================================
+Telescopes
+==========
