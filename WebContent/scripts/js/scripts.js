@@ -89,7 +89,7 @@ function ScriptsController($gloriaAPI, $scope, $timeout, $location,
 	};
 
 	$scope.isValidScript = function(op) {
-		return op == 'expose' || op == 'close' || op == 'open';
+		return op == 'expose' || op == 'close' || op == 'open' || op == 'close&park';
 	};
 	
 	$scope.deleteScript = function() {
@@ -108,6 +108,7 @@ function ScriptsController($gloriaAPI, $scope, $timeout, $location,
 						$scope.telescopeSelected,
 						function(data) {
 							$scope.scripts = [];
+							console.log(data);
 
 							data
 									.forEach(function(script) {
